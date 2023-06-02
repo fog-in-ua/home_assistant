@@ -1,0 +1,72 @@
+--------------------
+Боты которые понадобиться для создания своего бота и получения id пользователя или канала
+
+@BotFather
+@ShowJsonBot
+
+--------------------
+configuration.yaml
+--------------------
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_bot_api_key
+    parse_mode: html
+    allowed_chat_ids:
+      - !secret telegram_bot_wdi_id
+      - !secret telegram_bot_white_id
+      - !secret telegram_bot_taneza_id
+
+notify:
+  - name: telegram
+    platform: telegram
+    chat_id: !secret telegram_bot_wdi_id
+
+  - name: telegram_wdi
+    platform: telegram
+    chat_id: !secret telegram_bot_white_id
+    
+  - name: telegram_white
+    platform: telegram
+    chat_id: !secret telegram_bot_taneza_id
+
+--------------------
+secrets.yaml
+--------------------
+telegram_bot_api_key: 1234567890:AABBc1FcwtqwDlubwqea6gwqrX_SqwrcbhsffsZyCd
+telegram_bot_chat_id: -123456789
+telegram_bot_white_id: 123456789
+telegram_bot_taneza_id: 123456789
+telegram_bot_wdi_id: 123456789
+
+
+
+
+
+Конфиг действия в автоматизациях
+
+---------------------------------------------------------------------------------    
+data:
+  message: |
+    {{"\U0001F321"}} raspberry cpu: {{ states('sensor.cpu_temperature') }} °C
+service: notify.telegram_white
+---------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------
+service: notify.telegram_white
+data:
+  data:
+    video:
+      - caption: Дом
+        file: /media/camera.mp4
+  message: ''
+---------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------
+data:
+  data:
+    photo:
+      - caption: Дом
+        file: /media/door.jpg
+  message: ''
+service: notify.telegram_white
+---------------------------------------------------------------------------------
